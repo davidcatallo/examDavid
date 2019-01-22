@@ -23,7 +23,7 @@ while ( $logement = $response->fetch() ) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
 
@@ -32,7 +32,6 @@ while ( $logement = $response->fetch() ) {
                     <a href="add.php" class="btn btn-sm btn-danger">Ajouter un logement</a>
                     <hr>
                 </p>
-
 
                 <table class="table">
                     <tr>
@@ -57,9 +56,10 @@ while ( $logement = $response->fetch() ) {
                             <td><?= $l['prix']; ?></td>
                             <td><?= $l['photo']; ?></td>
                             <td><?= $l['type']; ?></td>
-                            <td><?= $l['description']; ?></td>
+                            <!-- si la description est supérieur a 20 caractères alors on affiche les 20 premiers caracteres puis ..., sinon on affiche tel quel -->
+                            <td><?= strlen($l['description']) > 20 ? substr($l['description'],0,50)."..." : $l['description']; ?></td>
                             <td>
-                                <a href="show.php?id=<?= $l['id_logement']; ?>" class="btn btn-sm btn-primary">Plus d'infos</a>
+                                <a href="show.php?id=<?= $l['id_logement']; ?>" class="btn btn-sm btn-success">Plus d'infos</a>
                             </td>
                         </tr>
                     <?php } ?>
