@@ -2,7 +2,7 @@
 
 
 /* Je vérifie si mes variables se transmettent bien avec var_dump($_POST); */
-var_dump($_POST);
+/* var_dump($_POST); */
 
 
 /**
@@ -113,7 +113,8 @@ else {
     /* je concateine ma variable unique  avec un chemin de fichier pour tout mettre dans ma variable $photo */
     $photo = $nomAleatoire . "." . pathinfo($_FILES['photo']['name'])['extension'];
     $tmp_name = $_FILES["photo"]["tmp_name"];
-    move_uploaded_file($tmp_name, '/photos'. $photo );
+    /* J'importe ma photo dans mon fichier photo */
+    move_uploaded_file($tmp_name, 'photos/'. $photo );
 }
 
 

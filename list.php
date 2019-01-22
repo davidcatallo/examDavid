@@ -67,9 +67,6 @@ while ( $logement = $response->fetch() ) {
                             <td><img src="photos/<?= $l['photo']; ?>" alt=""></td>
                             <td><?= strlen($l['type']) > 20 ? substr($l['type'],0,20)." ..." : $l['type']; ?></td>                            
                             <td><?= strlen($l['description']) > 20 ? substr($l['description'],0,20)." ..." : $l['description']; ?></td>
-                            <td>
-                                <a href="show.php?id=<?= $l['id_logement']; ?>" class="btn btn-sm btn-success">Plus d'infos</a>
-                            </td>
                         </tr>
                     <?php } ?>
                 </table>

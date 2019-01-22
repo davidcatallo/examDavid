@@ -20,7 +20,7 @@
                     <br>       
                 </p>
 
-                <form action="save.php" method="post">
+                <form action="save.php" method="post" enctype="multipart/form-data">
 
                     <label for="titreLogement">nom du logement</label>
                     <input id="titreLogement" class="form-control" type="text" name="titre" required>
