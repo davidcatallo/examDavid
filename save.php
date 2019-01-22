@@ -82,43 +82,6 @@ else {
 }
 
 
-/* 
-/* 
-Validation de l'image: il doit permettre un upload de fichier image, 
-les vérifications sont multiples : extension et type de fichier, poids du fichier, etc.
-il peut être vide
-*/
-
-// Je liste les extensions autorisées
-$extensionsAutorisees = ['jpg', 'jpeg', 'gif', 'png'];
-// Teste de l'envoi de la photo
-if (empty($_FILES['photo']['name'])) {
-    $photo = null;
-}
-elseif($_FILES['photo']['error'] !== 0) {
-    echo "Attention, erreur lors de l'upload de l'image.";
-}
-// Teste de la taille de la photo
-elseif ($_FILES['photo']['size'] >= 1000000) {
-    echo "Attention, l'image est trop grosse.";
-}
-// Teste si l'extension est autorisée et accès 
-// 
-elseif (!in_array( pathinfo($_FILES['photo']['name'])['extension'], $extensionsAutorisees) ) {
-    echo "Attention, le fichier n'est pas autorisé.";
-}
-else {
-    /* je créer un unique id que je met dans une variable */ 
-    $nomAleatoire = "loge_" . uniqid();
-    /* je concateine ma variable unique  avec un chemin de fichier pour tout mettre dans ma variable $photo */
-    $photo = $nomAleatoire . "." . pathinfo($_FILES['photo']['name'])['extension'];
-    $tmp_name = $_FILES["photo"]["tmp_name"];
-    /* J'importe ma photo dans mon fichier photo */
-    move_uploaded_file($tmp_name, 'photos/'. $photo );
-}
-
-
-
 /* type obligatoire */
 if (empty($_POST['type'])) {
     echo "Le type est obligatoire.";
@@ -201,19 +164,19 @@ else {
         // On récupère le dernier ID enregistré
         $idPhoto = $bdd->lastInsertId();
 
-        // On nomme l'image
+        // je concateine mon image et mon id enregistrer dabs une variable pour la nommée
         $nomPhoto = "photo_" . $idPhoto;
 
-        // Pensez bien à rajouter l'extension du fichier à la place de [extension] !!
+        // je concateine mon image et mon chemin
         $nomImageComplet = $nomPhoto . "." . pathinfo($_FILES['photo']['name'])['extension'];
 
-
+        /* création de fichier temporaire */
         $tmp_name = $_FILES["photo"]["tmp_name"];
 
         /* J'importe ma photo dans mon fichier photo */
         move_uploaded_file($tmp_name, 'photos/'. $nomImageComplet );
 
-
+        /* je fais mon update de ma photo */
         $reqUpload = "UPDATE logement_david SET photo = :photo WHERE id_logement = :id";
 
         $responseUpload = $bdd->prepare($reqUpload);
