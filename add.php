@@ -26,10 +26,10 @@
                     <input id="titreLogement" class="form-control" type="text" name="titre" required>
 
                     <label for="adresseLogement">adresse</label>
-                    <input id="adresseLogement" class="form-control" type="text" name="logement" required>
+                    <input id="adresseLogement" class="form-control" type="text" name="adresse" required>
 
                     <label for="villeLogement">ville</label>
-                    <input id="villeLogement" class="form-control" type="text" name="logement" required>
+                    <input id="villeLogement" class="form-control" type="text" name="ville" required>
 
                     <label for="cpLogement">code postal</label>
                     <input id="cpLogement" class="form-control" type="number" name="cp" required>
@@ -49,7 +49,8 @@
                         <option value="vente">Vente</option>
                     </select>
 
-                    
+                    <label for="descriptionLogement">description</label>
+                    <input id="descriptionLogement"  class="form-control" type="text" name="description" >
 
                     <hr>
                     
