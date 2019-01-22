@@ -134,7 +134,7 @@ else {
 }
 
 /**
- * derniere validation pour être sur
+ * derniere validation pour être sur!
  * 
  * Enregistrement bdd
  */
@@ -161,6 +161,6 @@ else {
             'description'   => $description
         ]);
         echo "<h3>Le film a bien été ajouté !</h3>";
-        echo "<a href='list.php'>Retour à la liste</a>";
+        echo "<a href='list.php'>Aller à la liste</a>";
 
 }
