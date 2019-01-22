@@ -82,9 +82,9 @@ else {
 }
 
 
-
 /* 
-Validation du champ photo, il doit permettre un upload de fichier image, 
+/* 
+Validation de l'image: il doit permettre un upload de fichier image, 
 les vérifications sont multiples : extension et type de fichier, poids du fichier, etc.
 il peut être vide
 */
@@ -150,8 +150,8 @@ else {
 
     $bdd = dbConnect();
 
-    $query = "  INSERT INTO logement_david(titre, adresse, ville, cp, surface, prix, photo, type, description)
-                    VALUES (:titre, :adresse, :ville, :cp, :surface, :prix, :photo, :type, :description)";
+    $query = "  INSERT INTO logement_david(titre, adresse, ville, cp, surface, prix, type, description)
+                    VALUES (:titre, :adresse, :ville, :cp, :surface, :prix, :type, :description)";
     $response = $bdd->prepare($query);
     $response->execute([
             'titre'         => $titre,
@@ -160,11 +160,70 @@ else {
             'cp'            => $cp,
             'surface'       => $surface,
             'prix'          => $prix,
-            'photo'         => $photo,
             'type'          => $type,
             'description'   => $description
         ]);
-        echo "<h3>Le film a bien été ajouté !</h3>";
-        echo "<a href='list.php'>Aller à la liste</a>";
+    echo "<h3>Le logement a bien été ajouté !</h3>";
+    echo "<a href='list.php'>Aller à la liste</a>";
+
+
+
+        /* 
+    Validation de l'image: il doit permettre un upload de fichier image, 
+    les vérifications sont multiples : extension et type de fichier, poids du fichier, etc.
+    il peut être vide
+    */
+
+    // Je liste les extensions autorisées
+    $extensionsAutorisees = ['jpg', 'jpeg', 'gif', 'png'];
+
+
+    // Teste de l'envoi de la photo
+    if (empty($_FILES['photo']['name'])) {
+        $nomImageComplet = null;
+    }
+    elseif($_FILES['photo']['error'] !== 0) {
+        echo "Attention, erreur lors de l'upload de l'image.";
+    }
+
+    // Teste de la taille de la photo
+    elseif ($_FILES['photo']['size'] >= 1000000) {
+        echo "Attention, l'image est trop grosse.";
+    }
+
+    // Teste si l'extension est autorisée et accès 
+    // 
+    elseif (!in_array( pathinfo($_FILES['photo']['name'])['extension'], $extensionsAutorisees) ) {
+        echo "Attention, le fichier n'est pas autorisé.";
+    }
+    else {
+        
+        // On récupère le dernier ID enregistré
+        $idPhoto = $bdd->lastInsertId();
+
+        // On nomme l'image
+        $nomPhoto = "photo_" . $idPhoto;
+
+        // Pensez bien à rajouter l'extension du fichier à la place de [extension] !!
+        $nomImageComplet = $nomPhoto . "." . pathinfo($_FILES['photo']['name'])['extension'];
+
+
+        $tmp_name = $_FILES["photo"]["tmp_name"];
+
+        /* J'importe ma photo dans mon fichier photo */
+        move_uploaded_file($tmp_name, 'photos/'. $nomImageComplet );
+
+
+        $reqUpload = "UPDATE logement_david SET photo = :photo WHERE id_logement = :id";
+
+        $responseUpload = $bdd->prepare($reqUpload);
+
+        $responseUpload->execute([
+            'id' => $idPhoto,
+            'photo' => $nomImageComplet
+        ]);
+        
+
+    }
 
 }

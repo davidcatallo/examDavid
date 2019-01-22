@@ -63,7 +63,7 @@ while ( $logement = $response->fetch() ) {
                             <td><?= $l['cp']; ?></td>
                             <td><?= $l['surface']; ?></td>
                             <td><?= $l['prix']; ?></td>
-                            <!-- je vais chercher ma photo dans mon dossier photos( pour l'instant, ne fonction pas car pas de photos importer) -->
+                            <!-- je vais chercher ma photo dans mon dossier photos -->
                             <td><img src="photos/<?= $l['photo']; ?>" alt=""></td>
                             <td><?= strlen($l['type']) > 20 ? substr($l['type'],0,20)." ..." : $l['type']; ?></td>                            
                             <td><?= strlen($l['description']) > 20 ? substr($l['description'],0,20)." ..." : $l['description']; ?></td>
