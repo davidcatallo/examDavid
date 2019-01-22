@@ -108,9 +108,12 @@ elseif (!in_array( pathinfo($_FILES['photo']['name'])['extension'], $extensionsA
     echo "Attention, le fichier n'est pas autorisé.";
 }
 else {
+    /* je créer un unique id que je met dans une variable */ 
     $nomAleatoire = "loge_" . uniqid();
+    /* je concateine ma variable unique  avec un chemin de fichier pour tout mettre dans ma variable $photo */
     $photo = $nomAleatoire . "." . pathinfo($_FILES['photo']['name'])['extension'];
-    move_uploaded_file($_FILES['photo']['tmp_name'], 'photos/'. $photo );
+    $tmp_name = $_FILES["photo"]["tmp_name"];
+    move_uploaded_file($tmp_name, '/photos'. $photo );
 }
 
 

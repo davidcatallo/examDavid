@@ -2,12 +2,19 @@
 
 
 $bdd = dbConnect();
+
+// Ma requête à la BDD
 $request = "SELECT * FROM logement_david";
+
+// Je questionne (->query()) l'instance de base de données ($bdd) avec ma requête ($request)
 $response = $bdd->query($request);
 
+// Array qui contiendra les données requêtées
 $logements = [];
 
+// Tant que j'arrive à aller chercher (fetch) des lignes qui rentreront dans $logements :
 while ( $logement = $response->fetch() ) {
+    // Je met $logement dans mon tableau $logements
     $logements[] = $logement;
 }
 
@@ -48,16 +55,18 @@ while ( $logement = $response->fetch() ) {
 
                     <?php foreach($logements as $l) { ?>
                         <tr>
-                            <td><?= $l['titre']; ?></td>
-                            <td><?= $l['adresse']; ?></td>
-                            <td><?= $l['ville']; ?></td>
+                        <!-- si les champs textes sont supérieur a 20 caractères alors, 
+                        on affiche seulement les 20 premiers caracteres puis '...', sinon on affiche tel quel -->
+                            <td><?= strlen($l['titre']) > 20 ? substr($l['titre'],0,20)." ..." : $l['titre']; ?></td>
+                            <td><?= strlen($l['adresse']) > 20 ? substr($l['adresse'],0,20)." ..." : $l['adresse']; ?></td>
+                            <td><?= strlen($l['ville']) > 20 ? substr($l['ville'],0,20)." ..." : $l['ville']; ?></td>
                             <td><?= $l['cp']; ?></td>
                             <td><?= $l['surface']; ?></td>
                             <td><?= $l['prix']; ?></td>
-                            <td><?= $l['photo']; ?></td>
-                            <td><?= $l['type']; ?></td>
-                            <!-- si la description est supérieur a 20 caractères alors on affiche les 20 premiers caracteres puis ..., sinon on affiche tel quel -->
-                            <td><?= strlen($l['description']) > 20 ? substr($l['description'],0,50)."..." : $l['description']; ?></td>
+                            <!-- je vais chercher ma photo dans mon dossier photos( pour l'instant, ne fonction pas car pas de photos importer) -->
+                            <td><img src="photos/<?= $l['photo']; ?>" alt=""></td>
+                            <td><?= strlen($l['type']) > 20 ? substr($l['type'],0,20)." ..." : $l['type']; ?></td>                            
+                            <td><?= strlen($l['description']) > 20 ? substr($l['description'],0,20)." ..." : $l['description']; ?></td>
                             <td>
                                 <a href="show.php?id=<?= $l['id_logement']; ?>" class="btn btn-sm btn-success">Plus d'infos</a>
                             </td>
